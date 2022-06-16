@@ -57,3 +57,8 @@ def purchasePlaces():
 @app.route('/logout')
 def logout():
     return redirect(url_for('index'))
+
+
+# Correction 1: code below was missing --> server couldn't be launched
+if __name__ == "__main__":
+    app.run()
