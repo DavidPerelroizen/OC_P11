@@ -39,6 +39,7 @@ def showSummary():
 
 @app.route('/book/<competition>/<club>')
 def book(competition, club):
+    # Correction 3: former code didn't handle wrong club or competition --> added an exception handler
     try:
         foundClub = [c for c in clubs if c['name'] == club][0]
         foundCompetition = [c for c in competitions if c['name'] == competition][0]
