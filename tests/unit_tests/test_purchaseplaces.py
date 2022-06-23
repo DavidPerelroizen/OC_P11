@@ -36,9 +36,15 @@ form_data = {'competition': 'Spring Festival', 'places': 4, 'club': 'Iron Temple
 
 
 def test_buying_places_should_decrease_points_available(client):
-    response = client.post('/purchasePlaces', json=form_data)
-
-    assert clubs[1]["points"] == 0
+    mimetype = 'application/json'
+    headers = {
+        'Content-Type': mimetype,
+        'Accept': mimetype
+    }
+    response = client.post('/purchasePlaces', json=form_data, headers=headers)
+    print(response.json)
+    print(response.content_type)
+    assert int(clubs[1]["points"]) == 0
 
 
 

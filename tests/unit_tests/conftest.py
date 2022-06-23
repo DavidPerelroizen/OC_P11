@@ -1,9 +1,12 @@
 import pytest
+from flask import Flask
 
 
 @pytest.fixture()
 def app():
-    app = create_app()
+    app = Flask(__name__)
+    app.secret_key = 'something_special'
+    app.debug = True
     app.config.update({
         "TESTING": True,
     })
