@@ -1,5 +1,7 @@
 import pytest
-from flask import Flask,render_template,request,redirect,flash,url_for
+from flask import Flask,render_template,request,redirect,flash,url_for, json
+from bs4 import BeautifulSoup
+import requests
 
 clubs = [
         {
@@ -42,8 +44,10 @@ def test_buying_places_should_decrease_points_available(client):
         'Accept': mimetype
     }
     response = client.post('/purchasePlaces', json=form_data, headers=headers)
-    print(response.json)
     print(response.content_type)
+    print(response)
+    soup = BeautifulSoup(response, features="html.parser")
+    print(soup)
     assert int(clubs[1]["points"]) == 0
 
 
