@@ -1,5 +1,6 @@
 import json
 from flask import Flask,render_template,request,redirect,flash,url_for
+import datetime
 
 
 def loadClubs():
@@ -32,7 +33,13 @@ def showSummary():
     # Correction 2: former code didn't handle wrong email input --> exception handler
     try:
         club = [club for club in clubs if club['email'] == request.form['email']][0]
-        return render_template('welcome.html', club=club, competitions=competitions)
+        # Correction 9: former code displayed events in the past --> only future events are displayed
+        competitions_to_display = []
+        for competition in competitions:
+            print(competition['date'])
+            if datetime.datetime.strptime(competition['date'], '%Y-%m-%d %H:%M:%S') > datetime.datetime.now():
+                competitions_to_display.append(competition)
+        return render_template('welcome.html', club=club, competitions=competitions_to_display)
     except IndexError:
         flash('Wrong email. Please try again.')
         return redirect('/')
