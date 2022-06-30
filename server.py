@@ -33,7 +33,7 @@ def showSummary():
     # Correction 2: former code didn't handle wrong email input --> exception handler
     try:
         club = [club for club in clubs if club['email'] == request.form['email']][0]
-        # Correction 9: former code displayed events in the past --> only future events are displayed
+        # Correction 10: former code displayed events in the past --> only future events are displayed
         competitions_to_display = []
         for competition in competitions:
             if datetime.datetime.strptime(competition['date'], '%Y-%m-%d %H:%M:%S') > datetime.datetime.now():
