@@ -36,7 +36,6 @@ def showSummary():
         # Correction 9: former code displayed events in the past --> only future events are displayed
         competitions_to_display = []
         for competition in competitions:
-            print(competition['date'])
             if datetime.datetime.strptime(competition['date'], '%Y-%m-%d %H:%M:%S') > datetime.datetime.now():
                 competitions_to_display.append(competition)
         return render_template('welcome.html', club=club, competitions=competitions_to_display)
