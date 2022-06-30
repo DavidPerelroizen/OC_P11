@@ -2,6 +2,7 @@ import pytest
 from flask import Flask,render_template,request,redirect,flash,url_for, json
 from bs4 import BeautifulSoup
 import requests
+from werkzeug.datastructures import MultiDict, ImmutableMultiDict
 
 clubs = [
         {
@@ -34,7 +35,7 @@ competitions: [
     ]
 
 
-form_data = {'competition': 'Spring Festival', 'places': 4, 'club': 'Iron Temple'}
+form_data = ImmutableMultiDict([('club', 'Iron Temple'), ('competition', 'Spring Festival'), ('places', 4)])
 
 
 def test_buying_places_should_decrease_points_available(client):
@@ -43,12 +44,15 @@ def test_buying_places_should_decrease_points_available(client):
         'Content-Type': mimetype,
         'Accept': mimetype
     }
+
     response = client.post('/purchasePlaces', json=form_data, headers=headers)
-    print(response.content_type)
-    print(response)
+
+    print('Response', response)
+    print('Content type', response.content_type)
     soup = BeautifulSoup(response, features="html.parser")
     print(soup)
-    assert int(clubs[1]["points"]) == 0
+
+    assert "Points available: 0" in soup
 
 
 
