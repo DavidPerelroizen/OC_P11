@@ -34,27 +34,19 @@ competitions: [
         }
     ]
 
-
-form_data = ImmutableMultiDict([('club', 'Iron Temple'), ('competition', 'Spring Festival'), ('places', 4)])
+form_data = {'club': 'Iron Temple', 'competition': 'Spring Festival', 'places': 4}
 
 
 def test_buying_places_should_decrease_points_available(client):
-    mimetype = 'application/json'
-    headers = {
-        'Content-Type': mimetype,
-        'Accept': mimetype
-    }
 
-    response = client.post('/purchasePlaces', json=form_data, headers=headers)
+    assertion_check = 'Great-booking complete! 4 places booked.'
 
-    print('Response', response)
-    print('Content type', response.content_type)
-    soup = BeautifulSoup(response, features="html.parser")
-    print(soup)
+    response = client.post('/purchasePlaces', data=form_data)
 
-    assert "Points available: 0" in soup
+    soup = BeautifulSoup(response.data, features="html.parser")
+    soup_content = soup.find_all("li")
 
-
+    assert assertion_check in soup_content[0].get_text()
 
 
 def test_club_cant_buy_more_places_than_points_available():
