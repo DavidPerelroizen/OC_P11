@@ -35,6 +35,7 @@ def test_booking_with_right_competition_and_wrong_club(client):
 
     assert assertion_check in soup_content[0].get_text()
 
+
 def test_booking_error_message(client):
     competition = "Spring Festival"
     club = "Simply WrongLift"
