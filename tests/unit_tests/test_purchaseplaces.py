@@ -36,9 +36,9 @@ competitions: [
 
 
 def test_buying_places_should_decrease_points_available(client):
-    form_data = {'club': 'Iron Temple', 'competition': 'Spring Festival', 'places': 2}
+    form_data = {'club': 'Iron Temple', 'competition': 'Spring Festival', 'places': 1}
 
-    assertion_check = 'Points available: 2'
+    assertion_check = 'Points available: 1'
 
     response = client.post('/purchasePlaces', data=form_data)
 
