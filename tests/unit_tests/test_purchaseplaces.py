@@ -36,16 +36,15 @@ competitions: [
 
 
 def test_buying_places_should_decrease_points_available(client):
-    form_data = {'club': 'Iron Temple', 'competition': 'Spring Festival', 'places': 4}
+    form_data = {'club': 'Iron Temple', 'competition': 'Spring Festival', 'places': 2}
 
-    assertion_check = 'Great-booking complete! 4 places booked.'
+    assertion_check = 'Points available: 2'
 
     response = client.post('/purchasePlaces', data=form_data)
 
     soup = BeautifulSoup(response.data, features="html.parser")
-    soup_content = soup.find_all("li")
 
-    assert assertion_check in soup_content[0].get_text()
+    assert assertion_check in soup.get_text()
 
 
 def test_club_cant_buy_more_places_than_points_available(client):
