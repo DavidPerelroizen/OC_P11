@@ -34,10 +34,9 @@ competitions: [
         }
     ]
 
-form_data = {'club': 'Iron Temple', 'competition': 'Spring Festival', 'places': 4}
-
 
 def test_buying_places_should_decrease_points_available(client):
+    form_data = {'club': 'Iron Temple', 'competition': 'Spring Festival', 'places': 4}
 
     assertion_check = 'Great-booking complete! 4 places booked.'
 
@@ -49,9 +48,27 @@ def test_buying_places_should_decrease_points_available(client):
     assert assertion_check in soup_content[0].get_text()
 
 
-def test_club_cant_buy_more_places_than_points_available():
-    pass
+def test_club_cant_buy_more_places_than_points_available(client):
+    form_data = {'club': 'Iron Temple', 'competition': 'Spring Festival', 'places': 5}
+
+    assertion_check = 'Sorry you can\'t order more places than you have points available'
+
+    response = client.post('/purchasePlaces', data=form_data)
+
+    soup = BeautifulSoup(response.data, features="html.parser")
+    soup_content = soup.find_all("li")
+
+    assert assertion_check in soup_content[0].get_text()
 
 
-def test_club_cant_buy_more_than_12_places():
-    pass
+def test_club_cant_buy_more_than_12_places(client):
+    form_data = {'club': 'Iron Temple', 'competition': 'Spring Festival', 'places': 14}
+
+    assertion_check = 'Sorry you can\'t order more than 12 places for an event'
+
+    response = client.post('/purchasePlaces', data=form_data)
+
+    soup = BeautifulSoup(response.data, features="html.parser")
+    soup_content = soup.find_all("li")
+
+    assert assertion_check in soup_content[0].get_text()
