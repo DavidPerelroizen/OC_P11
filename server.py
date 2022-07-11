@@ -61,6 +61,7 @@ def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     placesRequired = int(request.form['places'])
+
     # Correction 8: sends a message if no places are available anymore
     if int(competition['numberOfPlaces']) == 0:
         flash('Sorry, event is full. You can\'t order places anymore')
@@ -75,13 +76,15 @@ def purchasePlaces():
             flash('Sorry you can\'t order more places than what is available for this competition')
             return render_template('welcome.html', club=club, competitions=competitions)
         # Correction 6: prevents a club from ordering more places than points available in its total
-        elif placesRequired > int(club['points']):
+        # Correction 11: added in the condition the fact that a place is worth 3 points
+        elif placesRequired > int(club['points'])/3:
             flash('Sorry you can\'t order more places than you have points available')
             return render_template('welcome.html', club=club, competitions=competitions)
         else:
             competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
             # Correction 4: deduce the number of places purchased from the club's points total
-            club['points'] = int(club['points']) - placesRequired
+            # Correction 12: the number of points deducted is the number of places times 3
+            club['points'] = int(club['points']) - (placesRequired*3)
             flash(f'Great-booking complete! {placesRequired} places booked.')
             return render_template('welcome.html', club=club, competitions=competitions)
 
