@@ -4,7 +4,6 @@ from locust import HttpUser, task, between
 
 
 class QuickStartUser(HttpUser):
-    wait_time = between(1, 5)
 
     @task
     def show_summary(self):
@@ -13,6 +12,5 @@ class QuickStartUser(HttpUser):
 
     @task
     def points_total_update(self):
-        self.client.post('/purchasePlaces', data={'name': 'Iron Temple', 'competition': 'Spring Festival',
-                                                  'places': 4})
+        self.client.post('/purchasePlaces', data={'club': 'Iron Temple', 'competition': 'Spring Festival', 'places': 1})
         time.sleep(1)
