@@ -1,8 +1,3 @@
-import pytest
-
-from server import book, clubs, competitions
-from flask import render_template
-from .conftest import client
 from bs4 import BeautifulSoup
 
 

@@ -1,8 +1,5 @@
-import pytest
-from flask import Flask,render_template,request,redirect,flash,url_for, json
 from bs4 import BeautifulSoup
-import requests
-from werkzeug.datastructures import MultiDict, ImmutableMultiDict
+
 
 clubs = [
         {
@@ -21,13 +18,13 @@ clubs = [
             "points": "12"
         }]
 
-competitions: [
-        {
-            "name": "Spring Festival",
-            "date": "2020-03-27 10:00:00",
-            "numberOfPlaces": "25"
+competitions = [
+    {
+        "name": "Spring Festival",
+        "date": "2020-03-27 10:00:00",
+        "numberOfPlaces": "25"
         },
-        {
+    {
             "name": "Fall Classic",
             "date": "2020-10-22 13:30:00",
             "numberOfPlaces": "13"

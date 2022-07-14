@@ -1,18 +1,18 @@
 import json
-from flask import Flask,render_template,request,redirect,flash,url_for
+from flask import Flask, render_template, request, redirect, flash, url_for
 import datetime
 
 
 def loadClubs():
     with open('clubs.json') as c:
-         listOfClubs = json.load(c)['clubs']
-         return listOfClubs
+        list_of_clubs = json.load(c)['clubs']
+        return list_of_clubs
 
 
 def loadCompetitions():
     with open('competitions.json') as comps:
-         listOfCompetitions = json.load(comps)['competitions']
-         return listOfCompetitions
+        list_of_competitions = json.load(comps)['competitions']
+        return list_of_competitions
 
 
 app = Flask(__name__)
@@ -48,9 +48,9 @@ def showSummary():
 def book(competition, club):
     # Correction 3: former code didn't handle wrong club or competition --> added an exception handler
     try:
-        foundClub = [c for c in clubs if c['name'] == club][0]
-        foundCompetition = [c for c in competitions if c['name'] == competition][0]
-        return render_template('booking.html',club=foundClub,competition=foundCompetition)
+        found_club = [c for c in clubs if c['name'] == club][0]
+        found_competition = [c for c in competitions if c['name'] == competition][0]
+        return render_template('booking.html', club=found_club, competition=found_competition)
     except (KeyError, IndexError):
         flash("Something went wrong-please try again")
         return render_template('welcome.html', club=club, competitions=competitions)
@@ -60,32 +60,36 @@ def book(competition, club):
 def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
-    placesRequired = int(request.form['places'])
+    places_required = int(request.form['places'])
 
     # Correction 8: sends a message if no places are available anymore
     if int(competition['numberOfPlaces']) == 0:
         flash('Sorry, event is full. You can\'t order places anymore')
         return render_template('welcome.html', club=club, competitions=competitions)
+
     else:
         # Correction 5: prevents a club from ordering more than 12 places for one event
-        if 12 < placesRequired < int(competition['numberOfPlaces']):
+        if 12 < places_required < int(competition['numberOfPlaces']):
             flash('Sorry you can\'t order more than 12 places for an event')
             return render_template('welcome.html', club=club, competitions=competitions)
+
         # Correction 7: prevents a club from ordering more places than total available for the competition
-        elif placesRequired > int(competition['numberOfPlaces']):
+        elif places_required > int(competition['numberOfPlaces']):
             flash('Sorry you can\'t order more places than what is available for this competition')
             return render_template('welcome.html', club=club, competitions=competitions)
+
         # Correction 6: prevents a club from ordering more places than points available in its total
         # Correction 11: added in the condition the fact that a place is worth 3 points
-        elif placesRequired > int(club['points'])/3:
+        elif places_required > int(club['points'])/3:
             flash('Sorry you can\'t order more places than you have points available')
             return render_template('welcome.html', club=club, competitions=competitions)
+
         else:
-            competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
+            competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-places_required
             # Correction 4: deduce the number of places purchased from the club's points total
             # Correction 12: the number of points deducted is the number of places times 3
-            club['points'] = int(club['points']) - (placesRequired*3)
-            flash(f'Great-booking complete! {placesRequired} places booked.')
+            club['points'] = int(club['points']) - (places_required*3)
+            flash(f'Great-booking complete! {places_required} places booked.')
             return render_template('welcome.html', club=club, competitions=competitions)
 
 # TODO: Add route for points display

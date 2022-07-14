@@ -1,5 +1,4 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
 
@@ -18,4 +17,3 @@ def test_authentication():
     assert "Welcome, admin@irontemple.com" in chrome_driver.page_source
 
     chrome_driver.close()
-

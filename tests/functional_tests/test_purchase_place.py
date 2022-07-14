@@ -1,5 +1,4 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
 
@@ -36,4 +35,3 @@ def test_purchase_places():
     assert chrome_driver.current_url == 'http://127.0.0.1:5000/'
 
     chrome_driver.close()
-

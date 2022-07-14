@@ -1,6 +1,4 @@
-import pytest
 from bs4 import BeautifulSoup
-import pprint
 
 
 def test_place_booking(client):

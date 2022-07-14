@@ -1,4 +1,3 @@
-from server import showSummary
 from bs4 import BeautifulSoup
 
 clubs = [
@@ -43,5 +42,3 @@ def test_showsummary_with_wrong_email(client):
     soup_content = soup.find_all("p")
 
     assert assertion_check in soup_content[0].get_text()
-
-
