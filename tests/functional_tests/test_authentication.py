@@ -17,3 +17,5 @@ def test_authentication():
     assert chrome_driver.current_url == 'http://127.0.0.1:5000/showSummary'
     assert "Welcome, admin@irontemple.com" in chrome_driver.page_source
 
+    chrome_driver.close()
+
