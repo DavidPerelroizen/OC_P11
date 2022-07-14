@@ -15,3 +15,6 @@ def test_authentication(client):
     assert response.status_code == 200
     assert assertion_check in soup_content[0].get_text()
 
+    response_logout = client.get('/logout')
+
+    assert response_logout.status_code == 302
