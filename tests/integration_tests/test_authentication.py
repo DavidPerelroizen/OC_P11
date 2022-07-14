@@ -1,42 +1,17 @@
 import pytest
-
-
-clubs = [
-        {
-            "name": "Simply Lift",
-            "email": "john@simplylift.co",
-            "points": "13"
-        },
-        {
-            "name": "Iron Temple",
-            "email": "admin@irontemple.com",
-            "points": "4"
-        },
-        {
-            "name": "She Lifts",
-            "email": "kate@shelifts.co.uk",
-            "points": "12"
-        }]
-
-competitions: [
-        {
-            "name": "Spring Festival",
-            "date": "2020-03-27 10:00:00",
-            "numberOfPlaces": "25"
-        },
-        {
-            "name": "Fall Classic",
-            "date": "2020-10-22 13:30:00",
-            "numberOfPlaces": "13"
-        }
-    ]
+from bs4 import BeautifulSoup
 
 
 def test_authentication(client):
 
     email_for_login = {'email': 'admin@irontemple.com'}
+    assertion_check = 'Welcome, admin@irontemple.com'
 
     response = client.post('/showSummary', data=email_for_login)
 
-    assert response.status_code == 302
-    assert response.url == '/showSummary'
+    soup = BeautifulSoup(response.data, features="html.parser")
+    soup_content = soup.find_all("h2")
+
+    assert response.status_code == 200
+    assert assertion_check in soup_content[0].get_text()
+

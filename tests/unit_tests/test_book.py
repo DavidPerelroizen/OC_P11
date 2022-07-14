@@ -52,7 +52,7 @@ def test_booking_error_message(client):
 def test_booking_route(client):
     competition = "Spring Festival"
 
-    club = "Simply WrongLift"
+    club = "Simply Lift"
 
     response = client.get('/book/'+competition+'/'+club)
 
