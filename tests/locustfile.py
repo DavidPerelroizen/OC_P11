@@ -11,5 +11,6 @@ class QuickStartUser(HttpUser):
 
     @task
     def points_total_update(self):
-        self.client.post('/purchasePlaces', data={'club': 'Iron Temple', 'competition': 'Spring Festival', 'places': 1})
+        self.client.post('/purchasePlaces', data={'club': 'Iron Temple', 'competition': 'Spring Festival',
+                                                  'places': 1})
         time.sleep(1)
