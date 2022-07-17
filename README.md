@@ -25,9 +25,9 @@
 
 3. Installation
 
-    - After cloning, change into the directory and type <code>virtualenv .</code>. This will then set up a a virtual python environment within that directory.
+    - After cloning, change into the directory and type <code>virtualenv .</code>. This will then set up a virtual python environment within that directory.
 
-    - Next, type <code>source bin/activate</code>. You should see that your command prompt has changed to the name of the folder. This means that you can install packages in here without affecting affecting files outside. To deactivate, type <code>deactivate</code>
+    - Next, type <code>source bin/activate</code>. You should see that your command prompt has changed to the name of the folder. This means that you can install packages in here without affecting files outside. To deactivate, type <code>deactivate</code>
 
     - Rather than hunting around for the packages you need, you can install in one step. Type <code>pip install -r requirements.txt</code>. This will install all the packages listed in the respective file. If you install a package, make sure others know by updating the requirements.txt file. An easy way to do this is <code>pip freeze > requirements.txt</code>
 
@@ -49,3 +49,78 @@
     We also like to show how well we're testing, so there's a module called 
     [coverage](https://coverage.readthedocs.io/en/coverage-5.1/) you should add to your project.
 
+   ### Trigger the tests
+   
+      Use pytest to trigger the tests.
+
+      #### Trigger the unit_tests
+         Go to the unit_tests directory and type the following command in your terminal: <code>pytest</code>
+
+      #### Trigger the integration_tests
+         Go to the integration_tests directory and type the following command in your terminal: <code>pytest</code>
+      
+      ### Trigger the functional_tests
+         1. Open terminal and execute the following command from the main directory: <code>python .\server.py</code>
+         2. Open another terminal window, go to the functional_tests directory and type the following command: <code>pytest</code>
+
+6. Test coverage
+   
+   In order to check the test coverage go to each of the test directories and type the following command:
+   ````bash
+   pytest --cov
+   ````
+   Note that in order to get the functional tests coverage, you must trigger the server.py in another terminal window.
+
+7. Performance check
+   
+   Run the server.py to trigger the app:
+   ```bash
+   python server.py
+   ```
+   In another terminal window go to the tests directory run the following command:
+   ```bash
+   locust
+   ```
+   In your navigator go to the url: http://localhost:8089/.
+
+   Select the number of users, the spawn rate, and type http://127.0.0.1:5000 has host.
+   Then start swarming and check performance either online or by typing <code>ctrl-c</code> in the terminal window where you started locust.
+
+
+8. Flake8 set-up and checks
+
+   ### Flake 8 configuration
+
+   In the project directory, create a file as follows:
+   ```bash
+   setup.cfg
+   ```
+
+   In this file, write the following:
+   ```bash
+   [flake8]
+   max-line-length = 119
+   exclude = venv, __init__.py, *.txt, *.csv, *.md
+   ```
+   We restrict the maximum number of characters per line at 119. So flake8 won't consider as errors a line as long as it
+   has fewer characters.
+   We exclude from the flake8 checks the followings:
+  - Our virtual environment libraries
+  - Our packages init files
+  - Our requirement file
+  - Our readme file
+  - Our CSV databases
+  - Our migrations files
+
+
+   ### Execute flake8 report
+
+   In case the user requests a regular flake8 check on the terminal, proceed as follows:
+   ```bash
+   flake8 path/to/project/directory
+   ```
+
+   In case a html reporting is preferred, proceed as follows:
+   ```bash
+   flake8 --format=html --htmldir=flake-report
+   ```
