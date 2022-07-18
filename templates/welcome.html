@@ -1,35 +1,55 @@
 <html lang="en">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Summary | GUDLFT Registration</title>
 </head>
 <body>
-        <h2>Welcome, {{club['email']}} </h2><a href="{{url_for('logout')}}">Logout</a>
 
-    {% with messages = get_flashed_messages()%}
-    {% if messages %}
-        <ul>
-       {% for message in messages %}
-            <li>{{message}}</li>
-        {% endfor %}
-       </ul>
-    {% endif%}
-    Points available: {{club['points']}}
-    <h3>Competitions:</h3>
-    <ul>
-        {% for comp in competitions%}
-        <li>
-            {{comp['name']}}<br />
-            Date: {{comp['date']}}</br>
-            Number of Places: {{comp['numberOfPlaces']}}
-            {%if comp['numberOfPlaces']|int >0%}
-            <a href="{{ url_for('book',competition=comp['name'],club=club['name']) }}">Book Places</a>
-            {%endif%}
-        </li>
-        <hr />
-        {% endfor %}
-    </ul>
+    <div>
+        <nav class="navbar navbar-expand-lg bg-light">
+            <h2 class="navbar-brand">Welcome, {{club['email']}} </h2><a href="{{url_for('logout')}}" class="d-flex">Logout</a>
+        </nav>
+    </div>
+    <div class="container">
+        {% with messages = get_flashed_messages()%}
+        {% if messages %}
+            <ul>
+           {% for message in messages %}
+                <div class="alert alert-danger" role="alert">
+                    <li>{{message}}</li>
+                </div>
+            {% endfor %}
+           </ul>
+        {% endif%}
+    </div>
+    <div class="container">
+       <div class="card">
+            <div class="card-body">
+                Points available: {{club['points']}}
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h3>Competitions:</h3>
+        <ul class="list-group">
+            {% for comp in competitions%}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{comp['name']}}<br />
+                Date: {{comp['date']}}</br>
+                Number of Places: {{comp['numberOfPlaces']}}
+                {%if comp['numberOfPlaces']|int >0%}
+                <a href="{{ url_for('book',competition=comp['name'],club=club['name']) }}">Book Places</a>
+                {%endif%}
+            </li>
+            <hr />
+            {% endfor %}
+        </ul>
+    </div>
+
     {%endwith%}
 
 </body>
